@@ -1,0 +1,13 @@
+Task 1: Fully Connected Neural Network Example:
+
+from tensorflow.keras import layers, models
+
+model_fcn = models.Sequential([
+    layers.Dense(128, activation='relu', input_shape=(256,)),
+    layers.Dense(64, activation='tanh'),
+    layers.Dense(32, activation='relu'),
+    layers.Dense(10, activation='softmax')
+])
+
+model_fcn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model_fcn.summary()
