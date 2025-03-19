@@ -16,19 +16,18 @@ model_fcn.summary()
 
 Locally Connected Network Example:
 
-X_train_local = X_train.reshape(-1, 16, 16, 1)
-X_test_local = X_test.reshape(-1, 16, 16, 1)
-
-model_local = models.Sequential([
-    layers.LocallyConnected2D(32, (3, 3), activation='relu', input_shape=(16, 16, 1)),
-    layers.LocallyConnected2D(64, (3, 3), activation='tanh'),
-    layers.Flatten(),
-    layers.Dense(32, activation='relu'),
-    layers.Dense(10, activation='softmax')
+model_locally_connected_no_weights = models.Sequential([
+    layers.Conv1D(128, kernel_size=5, activation='relu', input_shape=(256, 1)),  # Local connection with no weight sharing
+    layers.Conv1D(64, kernel_size=5, activation='tanh'),
+    layers.Conv1D(32, kernel_size=5, activation='relu'),
+    layers.Flatten(),  # Flatten the output from Conv1D to Dense
+    layers.Dense(10, activation='softmax')  # Output layer
 ])
 
-model_local.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-model_local.summary()
+model_locally_connected_no_weights.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+model_locally_connected_no_weights.summary()
+
 
 
 Convolutional Neural Network Example:
