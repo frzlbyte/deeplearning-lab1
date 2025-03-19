@@ -1,5 +1,43 @@
 Task 1: Fully Connected Neural Network Example:
 
+Loading the Digital Datasets:
+
+import numpy as np
+import urllib.request
+
+# Load the dataset from the provided URLs
+train_url = "http://www.cs.fsu.edu/~liux/courses/deepRL/assignments/zip_train.txt"
+test_url = "http://www.cs.fsu.edu/~liux/courses/deepRL/assignments/zip_test.txt"
+
+# Download and read the data
+train_data = np.loadtxt(urllib.request.urlopen(train_url))
+test_data = np.loadtxt(urllib.request.urlopen(test_url))
+
+# Split into features and labels
+X_train = train_data[:, 1:]  # Features (256 features per image)
+y_train = train_data[:, 0].astype(int)  # Labels (digits 0-9)
+
+X_test = test_data[:, 1:]  # Features
+y_test = test_data[:, 0].astype(int)  # Labels
+
+# Normalize the features to be between 0 and 1
+X_train = (X_train + 1) / 2  # Rescale to [0, 1]
+X_test = (X_test + 1) / 2
+
+# Reshape data to fit the model input (add a channel dimension for CNNs)
+X_train = X_train.reshape(-1, 256, 1)  # For the locally connected networks (1D conv)
+X_test = X_test.reshape(-1, 256, 1)  # For the locally connected networks (1D conv)
+
+# For CNN (2D conv), reshape the data to 16x16 images (e.g., for 2D convolutions)
+X_train_cnn = X_train.reshape(-1, 16, 16, 1)  # Reshape to 16x16 images
+X_test_cnn = X_test.reshape(-1, 16, 16, 1)  # Reshape to 16x16 images
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 # Import necessary libraries
 from tensorflow.keras import layers, models
 
