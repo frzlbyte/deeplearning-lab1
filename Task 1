@@ -11,3 +11,37 @@ model_fcn = models.Sequential([
 
 model_fcn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 model_fcn.summary()
+
+Locally Connected Network Example:
+
+X_train_local = X_train.reshape(-1, 16, 16, 1)
+X_test_local = X_test.reshape(-1, 16, 16, 1)
+
+model_local = models.Sequential([
+    layers.LocallyConnected2D(32, (3, 3), activation='relu', input_shape=(16, 16, 1)),
+    layers.LocallyConnected2D(64, (3, 3), activation='tanh'),
+    layers.Flatten(),
+    layers.Dense(32, activation='relu'),
+    layers.Dense(10, activation='softmax')
+])
+
+model_local.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model_local.summary()
+
+
+Convolutional Neural Network Example:
+
+model_cnn = models.Sequential([
+    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(16, 16, 1)),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((2, 2)),
+    layers.Conv2D(64, (3, 3), activation='relu'),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((2, 2)),
+    layers.Flatten(),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(10, activation='softmax')
+])
+
+model_cnn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model_cnn.summary()
