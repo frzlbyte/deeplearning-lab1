@@ -33,16 +33,15 @@ model_locally_connected_no_weights.summary()
 Convolutional Neural Network Example:
 
 model_cnn = models.Sequential([
-    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(16, 16, 1)),
-    layers.BatchNormalization(),
+    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(16, 16, 1)),  # Conv2D to simulate local connectivity with weight sharing
     layers.MaxPooling2D((2, 2)),
-    layers.Conv2D(64, (3, 3), activation='relu'),
-    layers.BatchNormalization(),
+    layers.Conv2D(64, (3, 3), activation='tanh'),
     layers.MaxPooling2D((2, 2)),
+    layers.Conv2D(128, (3, 3), activation='relu'),
     layers.Flatten(),
-    layers.Dense(64, activation='relu'),
-    layers.Dense(10, activation='softmax')
+    layers.Dense(10, activation='softmax')  # Output layer
 ])
 
 model_cnn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
 model_cnn.summary()
