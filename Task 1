@@ -1,5 +1,6 @@
 Task 1: Fully Connected Neural Network Example:
 
+import tensorflow as tf
 from tensorflow.keras import layers, models
 
 model_fcn = models.Sequential([
@@ -10,6 +11,7 @@ model_fcn = models.Sequential([
 ])
 
 model_fcn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
 model_fcn.summary()
 
 Locally Connected Network Example:
