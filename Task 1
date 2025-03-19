@@ -1,46 +1,61 @@
 Task 1: Fully Connected Neural Network Example:
 
-import tensorflow as tf
+# Import necessary libraries
 from tensorflow.keras import layers, models
 
+# Define the first fully connected network
 model_fcn = models.Sequential([
-    layers.Dense(128, activation='relu', input_shape=(256,)),
-    layers.Dense(64, activation='tanh'),
-    layers.Dense(32, activation='relu'),
+    layers.Dense(128, activation='relu', input_shape=(256,)),  # First dense layer with ReLU activation
+    layers.Dense(64, activation='tanh'),  # Second dense layer with Tanh activation
+    layers.Dense(32, activation='relu'),  # Third dense layer with ReLU activation
+    layers.Dense(10, activation='softmax')  # Output layer with softmax activation for classification
+])
+
+# Compile the model
+model_fcn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+# Train the model using the digit dataset
+model_fcn.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test))
+
+# Model summary
+model_fcn.summary()
+
+Model 2 Locally Connected Network Example:
+
+model_locally_connected_no_weights = models.Sequential([
+    layers.Conv1D(128, kernel_size=5, activation='relu', input_shape=(256, 1)),
+    layers.Conv1D(64, kernel_size=5, activation='tanh'),
+    layers.Conv1D(32, kernel_size=5, activation='relu'),
+    layers.Flatten(),
     layers.Dense(10, activation='softmax')
 ])
 
-model_fcn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-
-model_fcn.summary()
-
-Locally Connected Network Example:
-
-model_locally_connected_no_weights = models.Sequential([
-    layers.Conv1D(128, kernel_size=5, activation='relu', input_shape=(256, 1)),  # Local connection with no weight sharing
-    layers.Conv1D(64, kernel_size=5, activation='tanh'),
-    layers.Conv1D(32, kernel_size=5, activation='relu'),
-    layers.Flatten(),  # Flatten the output from Conv1D to Dense
-    layers.Dense(10, activation='softmax')  # Output layer
-])
-
+# Compile and train the model
 model_locally_connected_no_weights.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model_locally_connected_no_weights.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test))
 
+# Model summary
 model_locally_connected_no_weights.summary()
-
 
 
 Convolutional Neural Network Example:
 
 model_cnn = models.Sequential([
-    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(16, 16, 1)),  # Conv2D to simulate local connectivity with weight sharing
+    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(16, 16, 1)),
     layers.MaxPooling2D((2, 2)),
     layers.Conv2D(64, (3, 3), activation='tanh'),
     layers.MaxPooling2D((2, 2)),
-    layers.Conv2D(128, (3, 3), activation='relu'),
+    layers.Conv2D(128, (2, 2), activation='relu'),  # Use kernel size (2x2) for the last Conv2D layer
     layers.Flatten(),
-    layers.Dense(10, activation='softmax')  # Output layer
+    layers.Dense(10, activation='softmax')
 ])
+
+# Compile and train the model
+model_cnn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model_cnn.fit(X_train_cnn, y_train, epochs=10, batch_size=32, validation_data=(X_test_cnn, y_test))
+
+# Model summary
+model_cnn.summary()
 
 model_cnn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
